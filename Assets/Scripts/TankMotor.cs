@@ -8,13 +8,11 @@ public class TankMotor : MonoBehaviour
 {
     //Need a reference to the character controller component
     private CharacterController characterController;
-    private TankData data;
     private Transform tf;
 
     void Start()
     {
         characterController = gameObject.GetComponent<CharacterController>();
-        data = gameObject.GetComponent<TankData>();
         tf = gameObject.GetComponent<Transform>();
     }
 
