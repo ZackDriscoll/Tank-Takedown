@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(TankData))]
 public class TankMotor : MonoBehaviour
 {
-    //Need a reference to the character controller component
+    //Need a reference to the character controller and transform components
     private CharacterController characterController;
     private Transform tf;
 

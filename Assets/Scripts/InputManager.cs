@@ -9,6 +9,14 @@ public class InputManager : MonoBehaviour
     private TankData data;
     private TankMotor motor;
 
+    //Variables to create and manipulate bullets
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+
+    //Variables to control timer for shooting
+    public float timerDelay = 1.50f;
+    private float lastEventTime;
+
     public enum InputScheme { WASD, arrowKeys };
     public InputScheme input = InputScheme.WASD;
 
@@ -17,6 +25,8 @@ public class InputManager : MonoBehaviour
     {
         data = gameObject.GetComponent<TankData>();
         motor = gameObject.GetComponent<TankMotor>();
+
+        lastEventTime = Time.time - timerDelay;
     }
 
     // Update is called once per frame
@@ -37,7 +47,7 @@ public class InputManager : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.DownArrow))
                 {
-                    motor.Move(-data.moveSpeed);
+                    motor.Move(-data.reverseSpeed);
                 }
                 else
                 {
@@ -47,11 +57,11 @@ public class InputManager : MonoBehaviour
                 //Handle Rotation
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    motor.Rotate(data.rotateSpeed);
+                    motor.Rotate(-data.rotateSpeed);
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    motor.Rotate(-data.rotateSpeed);
+                    motor.Rotate(data.rotateSpeed);
                 }
                 break;
 
@@ -63,7 +73,7 @@ public class InputManager : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.S))
                 {
-                    motor.Move(-data.moveSpeed);
+                    motor.Move(-data.reverseSpeed);
                 }
                 else
                 {
@@ -73,11 +83,11 @@ public class InputManager : MonoBehaviour
                 //Handle Rotation
                 if (Input.GetKey(KeyCode.A))
                 {
-                    motor.Rotate(data.rotateSpeed);
+                    motor.Rotate(-data.rotateSpeed);
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
-                    motor.Rotate(-data.rotateSpeed);
+                    motor.Rotate(data.rotateSpeed);
                 }
                 else
                 {
@@ -88,5 +98,19 @@ public class InputManager : MonoBehaviour
                 Debug.LogError("[InputManager] Undefined input scheme.");
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Time.time >= lastEventTime + timerDelay)
+            {
+                Shoot();
+                lastEventTime = Time.time;
+            }
+        }
+    }
+
+    void Shoot()
+    {
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 }
