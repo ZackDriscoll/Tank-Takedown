@@ -9,11 +9,27 @@ public class TankMotor : MonoBehaviour
     //Need a reference to the character controller and transform components
     private CharacterController characterController;
     private Transform tf;
+    public TankData data;
+
+    public float bulletDamage = 10.0f;
 
     void Start()
     {
         characterController = gameObject.GetComponent<CharacterController>();
         tf = gameObject.GetComponent<Transform>();
+        data = gameObject.GetComponent<TankData>();
+    }
+
+    public void DealDamage(float damage)
+    {
+        damage = bulletDamage;
+
+        data.currentHealth -= damage;
+
+        if (data.currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     //Handle Moving the tank
@@ -40,5 +56,29 @@ public class TankMotor : MonoBehaviour
 
         //Pass our rotation vector into transform.rotate
         tf.Rotate(rotateVector, Space.Self);
+    }
+
+    ///<summary>
+    ///Rotates toward a target
+    /// </summary>
+    /// <param name="target">Target to rotate toward.</param>
+    /// <param name="speed">Rotation speed.</param>
+    /// <returns>Returns true if it rotated. Returns false if already facing target.</returns>
+    public bool RotateTowards(Vector3 target, float speed)
+    {
+        //Find the vector to the target
+        Vector3 vectorToTarget = target - tf.position;
+
+        //Find the quaternion that looks down that vector
+        Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget);
+
+        if (targetRotation == tf.rotation)
+        {
+            return false;
+        }
+
+        tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, speed);
+
+        return true;
     }
 }
