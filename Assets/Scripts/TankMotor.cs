@@ -77,7 +77,7 @@ public class TankMotor : MonoBehaviour
             return false;
         }
 
-        tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, speed);
+        tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, speed * Time.deltaTime);
 
         return true;
     }
