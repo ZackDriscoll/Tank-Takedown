@@ -11,25 +11,11 @@ public class TankMotor : MonoBehaviour
     private Transform tf;
     public TankData data;
 
-    public float bulletDamage = 10.0f;
-
     void Start()
     {
         characterController = gameObject.GetComponent<CharacterController>();
         tf = gameObject.GetComponent<Transform>();
         data = gameObject.GetComponent<TankData>();
-    }
-
-    public void DealDamage(float damage)
-    {
-        damage = bulletDamage;
-
-        data.currentHealth -= damage;
-
-        if (data.currentHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     //Handle Moving the tank

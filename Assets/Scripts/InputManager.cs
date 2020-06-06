@@ -111,6 +111,8 @@ public class InputManager : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+        newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
     }
 }
