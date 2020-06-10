@@ -218,15 +218,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 507021118609617509, guid: e523c3404cb58f54aa6f65a3fdc2e15a,
         type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 2108810306}
-    - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 3762359703005302757, guid: e523c3404cb58f54aa6f65a3fdc2e15a,
         type: 3}
       propertyPath: waypoints.Array.data[0]
@@ -777,7 +777,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757004416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.77, y: 0.3, z: -2.0895703}
+  m_LocalPosition: {x: 3.57, y: 0.3, z: -2.0895703}
   m_LocalScale: {x: 1, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}

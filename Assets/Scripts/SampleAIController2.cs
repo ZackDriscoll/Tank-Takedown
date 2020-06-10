@@ -39,17 +39,22 @@ public class SampleAIController2 : MonoBehaviour
         }
         if (attackMode == AttackMode.Flee)
         {
-            Vector3 vectorToTarget = target.position - tf.position;
-            Vector3 vectorAwayFromTarget = -vectorToTarget;
-
-            //Set vector equal to 1 unit so that its magnitude is not equal to vectorToTarget
-            vectorAwayFromTarget.Normalize();
-
-            Vector3 fleePosition = vectorAwayFromTarget + tf.position;
-
-            //Rotate and move away from target
-            motor.RotateTowards(fleePosition, data.rotateSpeed);
-            motor.Move(data.moveSpeed);
+            Flee();
         }
+    }
+
+    private void Flee()
+    {
+        Vector3 vectorToTarget = target.position - tf.position;
+        Vector3 vectorAwayFromTarget = -vectorToTarget;
+
+        //Set vector equal to 1 unit so that its magnitude is not equal to vectorToTarget
+        vectorAwayFromTarget.Normalize();
+
+        Vector3 fleePosition = vectorAwayFromTarget + tf.position;
+
+        //Rotate and move away from target
+        motor.RotateTowards(fleePosition, data.rotateSpeed);
+        motor.Move(data.moveSpeed);
     }
 }
