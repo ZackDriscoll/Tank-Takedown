@@ -15,7 +15,7 @@ public class SampleAIController4 : MonoBehaviour
     {
         Cautious,
         Aggressive
-    }
+    };
 
     public enum AIState
     {
@@ -24,7 +24,7 @@ public class SampleAIController4 : MonoBehaviour
         Advance,
         Attack,
         Flee
-    }
+    };
 
     public AIPersonality currentPersonality;
 
