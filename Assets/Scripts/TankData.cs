@@ -15,6 +15,13 @@ public class TankData : MonoBehaviour
 
     public float bulletDamage = 10.0f;
 
+    //Variables to determine how far the AI can see
+    public float sightDistance = 20.0f;
+    public float SniperSightDistance = 30.0f;
+
+    //Variable to hold the AI's field of view
+    public float FOV = 70.0f;
+
     void Start()
     {
         currentHealth = maxHealth;

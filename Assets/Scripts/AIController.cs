@@ -23,7 +23,7 @@ public class AIController : MonoBehaviour
     public enum AIPersonality
     {
         Guard,
-        Commander,
+        Kamikaze,
         Sniper,
         Coward
     };
@@ -69,9 +69,9 @@ public class AIController : MonoBehaviour
                 currentAIState = AIState.Patrol;
                 GuardTankFSM();
                 break;
-            case AIPersonality.Commander:
+            case AIPersonality.Kamikaze:
                 currentAIState = AIState.Patrol;
-                CommanderTankFSM();
+                KamikazeTankFSM();
                 break;
             case AIPersonality.Sniper:
                 currentAIState = AIState.Search;
@@ -106,25 +106,41 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                SeesPlayer(data.moveSpeed);
+                if (SeesPlayer(data.sightDistance))
+                {
+                    ChangeState(AIState.Attack);
+                }
                 break;
             case AIState.Attack:
                 Attack();
+                //Check for transitions
+                if (!SeesPlayer(data.sightDistance))
+                {
+                    ChangeState(AIState.Patrol);
+                }
                 break;
         }
     }
 
-    private void CommanderTankFSM()
+    private void KamikazeTankFSM()
     {
         switch (currentAIState)
         {
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                SeesPlayer(data.moveSpeed);
+                if (SeesPlayer(data.sightDistance))
+                {
+                    ChangeState(AIState.Chase);
+                }
                 break;
             case AIState.Chase:
                 Chase();
+                //Check for transitions
+                if (!SeesPlayer(data.sightDistance))
+                {
+                    ChangeState(AIState.Patrol);
+                }
                 break;
         }
     }
@@ -136,10 +152,17 @@ public class AIController : MonoBehaviour
             case AIState.Search:
                 Search();
                 //Check for transitions
-                SeesPlayer(data.moveSpeed);
+                if (SeesPlayer(data.SniperSightDistance))
+                {
+                    ChangeState(AIState.Attack);
+                }
                 break;
             case AIState.Attack:
                 Attack();
+                if (!SeesPlayer(data.SniperSightDistance))
+                {
+                    ChangeState(AIState.Search);
+                }
                 break;
         }
     }
@@ -151,15 +174,22 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                SeesPlayer(data.moveSpeed);
-                //Should we flee?
-                if (CheckForFlee() == true)
+                if (SeesPlayer(data.sightDistance))
                 {
-                    currentAIState = AIState.Flee;
-                }
+                    //Should we flee?
+                    if (CheckForFlee())
+                    {
+                        ChangeState(AIState.Flee);
+                    }
+                }                
                 break;
             case AIState.Flee:
                 Flee();
+                //Check for transitions
+                if (!SeesPlayer(data.sightDistance))
+                {
+                    ChangeState(AIState.Patrol);
+                }
                 break;
         }
     }
@@ -192,7 +222,7 @@ public class AIController : MonoBehaviour
 
     private void Chase()
     {
-        if (SeesPlayer(data.moveSpeed) == true)
+        if (SeesPlayer(data.sightDistance))
         {
             Vector3 vectorToTarget = target.position - tf.position;
             Vector3 vectorAwayFromTarget = vectorToTarget;
@@ -205,17 +235,12 @@ public class AIController : MonoBehaviour
             //Rotate and move away from target
             motor.RotateTowards(fleePosition, data.rotateSpeed);
             motor.Move(data.moveSpeed);
-
-            Attack();
         }
     }
 
     private void Search()
     {
-        if (SeesPlayer(data.moveSpeed) == true)
-        {
-            currentAIState = AIState.Attack;
-        }
+        motor.Rotate(data.rotateSpeed);
     }
 
     private void Attack()
@@ -229,7 +254,7 @@ public class AIController : MonoBehaviour
 
     private bool CheckForFlee()
     {
-        if (SeesPlayer(data.moveSpeed) == true)
+        if (SeesPlayer(data.sightDistance))
         {
             return true;
         }
@@ -252,27 +277,45 @@ public class AIController : MonoBehaviour
         motor.Move(data.moveSpeed);
     }
 
-    public bool SeesPlayer(float speed)
+    public bool SeesPlayer(float sight)
     {
-        //Raycast forward
-        RaycastHit hit;
+        Vector3 vectorToTarget = target.position - tf.position;
 
-        if (Physics.Raycast(tf.position, tf.forward, out hit, speed))
+        float angleToTarget = Vector3.Angle(vectorToTarget, tf.forward);
+
+        if (angleToTarget < (data.FOV / 2.0f))
         {
-            if (hit.collider.CompareTag("Player"))
+            //Raycast forward
+            RaycastHit hit;
+
+            if (Physics.Raycast(tf.position, tf.forward, out hit, sight))
             {
-                Debug.Log("Sees Player");
-                return true;
+                if (hit.collider.CompareTag("Player"))
+                {
+                    Debug.Log("Sees Player");
+                    return true;
+                }
             }
-        }
+        }        
 
         return false;
     }
 
+    //Instatiates a bullet prefab from the firePoint and deals damage to target
     void Shoot()
     {
         GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
         newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
+    }
+
+    //Will destroy itself and other object on collision
+    void OnCollisionEnter(Collision otherObject)
+    {
+        if (gameObject.tag == "Player")
+        {
+            Destroy(otherObject.gameObject);
+            Destroy(this.gameObject);
+        }        
     }
 }

@@ -342,10 +342,7 @@ GameObject:
   - component: {fileID: 14300000}
   - component: {fileID: 1487033119}
   - component: {fileID: 1487033120}
-  - component: {fileID: 6667915015809938531}
-  - component: {fileID: 3762359703005302757}
-  - component: {fileID: 5937635900823372841}
-  - component: {fileID: 507021118609617509}
+  - component: {fileID: 6403362984502691917}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -418,7 +415,10 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   bulletDamage: 10
---- !u!114 &6667915015809938531
+  sightDistance: 20
+  SniperSightDistance: 30
+  FOV: 70
+--- !u!114 &6403362984502691917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -433,52 +433,14 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5578080078209122171, guid: 89a2b798997bb4647a3744c16c12b348,
     type: 3}
   firePoint: {fileID: 5033647128797040737}
-  timerDelay: 3
---- !u!114 &3762359703005302757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba37515aab4fd2348b50675e3369342f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  target: {fileID: 0}
+  waypoints: []
   closeEnough: 1
   currentWaypoint: 0
-  loopType: 1
---- !u!114 &5937635900823372841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eb06e960c1e566489badce07948405d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackMode: 0
-  target: {fileID: 0}
---- !u!114 &507021118609617509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd5fd390c2bb674681ce17803fba054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  currentPersonality: 0
+  previousAIState: 0
+  stateEnterTime: 0
+  timerDelay: 3
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0
