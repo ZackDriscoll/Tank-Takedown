@@ -14,6 +14,7 @@ public class TankData : MonoBehaviour
     public float currentHealth;
 
     public float bulletDamage = 10.0f;
+    public float fireRate;
 
     //Variables to determine how far the AI can see
     public float sightDistance = 20.0f;
