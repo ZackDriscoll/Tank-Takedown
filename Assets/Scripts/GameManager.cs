@@ -6,4 +6,7 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject playerPrefab;
     public int demoNumber = 13;
+    public List<PlayerSpawnPoint> playerSpawnPoints;
+
+
 }
