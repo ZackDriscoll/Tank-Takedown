@@ -412,14 +412,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   reverseSpeed: 2.5
-  rotateSpeed: 90
+  rotateSpeed: 150
   maxHealth: 50
   currentHealth: 0
   bulletDamage: 10
   fireRate: 0
-  sightDistance: 20
+  sightDistance: 40
   SniperSightDistance: 30
-  FOV: 70
+  FOV: 150
 --- !u!114 &6403362984502691917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,9 +439,14 @@ MonoBehaviour:
   waypoints: []
   closeEnough: 1
   currentWaypoint: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
   currentPersonality: 0
+  currentAIState: 0
   previousAIState: 0
   stateEnterTime: 0
+  attackTime: 3.5
   timerDelay: 3
 --- !u!114 &5685933790893732765
 MonoBehaviour:

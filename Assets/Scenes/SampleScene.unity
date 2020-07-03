@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 507021118609617509, guid: e523c3404cb58f54aa6f65a3fdc2e15a,
         type: 3}
       propertyPath: target
@@ -448,7 +452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &479540837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,6 +587,10 @@ PrefabInstance:
     - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 507021118609617509, guid: e523c3404cb58f54aa6f65a3fdc2e15a,
         type: 3}
@@ -1358,6 +1366,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 507021118609617509, guid: e523c3404cb58f54aa6f65a3fdc2e15a,
         type: 3}
       propertyPath: target
@@ -1703,6 +1715,10 @@ PrefabInstance:
     - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 507021118609617509, guid: e523c3404cb58f54aa6f65a3fdc2e15a,
         type: 3}

@@ -19,6 +19,8 @@ public class AIController : MonoBehaviour
     public float closeEnough = 1.0f;
     public int currentWaypoint = 0;
 
+    public LayerMask layerMask = 8;
+
     //Enum for the different personalities of the AI
     public enum AIPersonality
     {
@@ -41,10 +43,11 @@ public class AIController : MonoBehaviour
     //Variables to manipulate the personality and state
     public AIPersonality currentPersonality;
 
-    private AIState currentAIState;
+    public AIState currentAIState;
     public AIState previousAIState;
 
     public float stateEnterTime;
+    public float attackTime = 3.5f;
 
     //Variables for shooting timer
     public float timerDelay = 3.0f;
@@ -58,6 +61,25 @@ public class AIController : MonoBehaviour
         tf = GetComponent<Transform>();
 
         nextEventTime = Time.time + timerDelay;
+
+        switch (currentPersonality)
+        {
+            case AIPersonality.Guard:
+                currentAIState = AIState.Patrol;
+                break;
+            case AIPersonality.Kamikaze:
+                currentAIState = AIState.Patrol;
+                break;
+            case AIPersonality.Sniper:
+                currentAIState = AIState.Search;
+                break;
+            case AIPersonality.Coward:
+                currentAIState = AIState.Patrol;
+                break;
+            default:
+                Debug.LogWarning("Unimplemented Personality.");
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -66,19 +88,15 @@ public class AIController : MonoBehaviour
         switch (currentPersonality)
         {
             case AIPersonality.Guard:
-                currentAIState = AIState.Patrol;
                 GuardTankFSM();
                 break;
             case AIPersonality.Kamikaze:
-                currentAIState = AIState.Patrol;
                 KamikazeTankFSM();
                 break;
             case AIPersonality.Sniper:
-                currentAIState = AIState.Search;
                 SniperTankFSM();
                 break;
             case AIPersonality.Coward:
-                currentAIState = AIState.Patrol;
                 CowardTankFSM();
                 break;
             default:
@@ -108,10 +126,12 @@ public class AIController : MonoBehaviour
                 //Check for transitions
                 if (SeesPlayer(data.sightDistance))
                 {
+                    Debug.Log("Player was seen and we're changing state.");
                     ChangeState(AIState.Attack);
                 }
                 break;
             case AIState.Attack:
+                Debug.Log("Current State = Attack");
                 Attack();
                 //Check for transitions
                 if (!SeesPlayer(data.sightDistance))
@@ -245,8 +265,10 @@ public class AIController : MonoBehaviour
 
     private void Attack()
     {
+        Debug.Log("Attacking");
         if (Time.time >= nextEventTime)
         {
+            motor.RotateTowards(target.position, data.rotateSpeed);
             Shoot();
             nextEventTime = Time.time + timerDelay;
         }
@@ -288,7 +310,7 @@ public class AIController : MonoBehaviour
             //Raycast forward
             RaycastHit hit;
 
-            if (Physics.Raycast(tf.position, tf.forward, out hit, sight))
+            if (Physics.Raycast(tf.position, tf.forward, out hit, sight, ~layerMask))
             {
                 if (hit.collider.CompareTag("Player"))
                 {
