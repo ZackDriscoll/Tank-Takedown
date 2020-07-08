@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PlayerSpawnPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        GameManager.Instance.playerSpawnPoints.Add(this.gameObject.GetComponent<PlayerSpawnPoint>());
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        
+        GameManager.Instance.playerSpawnPoints.Remove(this.gameObject.GetComponent<PlayerSpawnPoint>());
     }
 }

@@ -64,44 +64,49 @@ public class MapGenerator : MonoBehaviour
 
                 Room tempRoom = tempRoomObj.GetComponent<Room>();
 
-                if(rows == 1)
-                {
-                    //Do nothing
-                }
-                else if (currentRow == 0)
-                {
-                    tempRoom.doorNorth.SetActive(false);
-                }
-                else if (currentRow == rows - 1)
-                {
-                    tempRoom.doorSouth.SetActive(false);
-                }
-                else
-                {
-                    tempRoom.doorNorth.SetActive(false);
-                    tempRoom.doorSouth.SetActive(false);
-                }
-
-                if (columns == 1)
-                {
-                    //Do nothing
-                }
-                else if (currentColumn == 0)
-                {
-                    tempRoom.doorWest.SetActive(false);
-                }
-                else if (currentColumn == columns - 1)
-                {
-                    tempRoom.doorEast.SetActive(false);
-                }
-                else
-                {
-                    tempRoom.doorWest.SetActive(false);
-                    tempRoom.doorEast.SetActive(false);
-                }
+                DeactivateDoors(currentRow, currentColumn, tempRoom);
 
                 grid[currentColumn, currentRow] = tempRoom;
             }
+        }
+    }
+
+    private void DeactivateDoors(int currentRow, int currentColumn, Room tempRoom)
+    {
+        if (rows == 1)
+        {
+            //Do nothing
+        }
+        else if (currentRow == 0)
+        {
+            tempRoom.doorNorth.SetActive(false);
+        }
+        else if (currentRow == rows - 1)
+        {
+            tempRoom.doorSouth.SetActive(false);
+        }
+        else
+        {
+            tempRoom.doorNorth.SetActive(false);
+            tempRoom.doorSouth.SetActive(false);
+        }
+
+        if (columns == 1)
+        {
+            //Do nothing
+        }
+        else if (currentColumn == 0)
+        {
+            tempRoom.doorWest.SetActive(false);
+        }
+        else if (currentColumn == columns - 1)
+        {
+            tempRoom.doorEast.SetActive(false);
+        }
+        else
+        {
+            tempRoom.doorWest.SetActive(false);
+            tempRoom.doorEast.SetActive(false);
         }
     }
 
@@ -129,6 +134,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         GenerateGrid();
+        GameManager.Instance.SpawnPlayer();
     }
 
     // Update is called once per frame

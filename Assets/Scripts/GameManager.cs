@@ -8,5 +8,14 @@ public class GameManager : Singleton<GameManager>
     public int demoNumber = 13;
     public List<PlayerSpawnPoint> playerSpawnPoints;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        playerSpawnPoints = new List<PlayerSpawnPoint>();
+    }
 
+    public void SpawnPlayer()
+    {
+        //TODO: Write code to spawn the player at a random spawn point
+    }
 }
