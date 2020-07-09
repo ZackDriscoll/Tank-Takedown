@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSpawnPoint : MonoBehaviour
 {
-    void Awake()
+    void Start()
     {
         GameManager.Instance.playerSpawnPoints.Add(this.gameObject.GetComponent<PlayerSpawnPoint>());
     }

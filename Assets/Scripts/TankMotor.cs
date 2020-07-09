@@ -50,10 +50,15 @@ public class TankMotor : MonoBehaviour
     /// <param name="target">Target to rotate toward.</param>
     /// <param name="speed">Rotation speed.</param>
     /// <returns>Returns true if it rotated. Returns false if already facing target.</returns>
-    public bool RotateTowards(Vector3 target, float speed)
+    public bool RotateTowards(Vector3 target, float speed, bool isFleeing)
     {
         //Find the vector to the target
         Vector3 vectorToTarget = target - tf.position;
+
+        if (isFleeing == true)
+        {
+            vectorToTarget *= -1;
+        }
 
         //Find the quaternion that looks down that vector
         Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget);

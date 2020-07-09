@@ -67,6 +67,8 @@ public class MapGenerator : MonoBehaviour
                 DeactivateDoors(currentRow, currentColumn, tempRoom);
 
                 grid[currentColumn, currentRow] = tempRoom;
+
+                GameManager.Instance.SpawnEnemies(tempRoom);
             }
         }
     }
@@ -135,11 +137,5 @@ public class MapGenerator : MonoBehaviour
 
         GenerateGrid();
         GameManager.Instance.SpawnPlayer();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

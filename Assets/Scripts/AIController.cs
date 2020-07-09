@@ -53,6 +53,25 @@ public class AIController : MonoBehaviour
     public float timerDelay = 3.0f;
     private float nextEventTime;
 
+    [SerializeField]private float safeDistance;
+
+    void Initialize()
+    {
+        float distanceToWaypoint = 0;
+
+        int index = 0;
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            if (Vector3.Distance(tf.position, waypoints[i].position) < distanceToWaypoint)
+            {
+                index = i;
+                distanceToWaypoint = Vector3.Distance(tf.position, waypoints[i].position);
+            }
+        }
+
+        currentWaypoint = index;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +99,8 @@ public class AIController : MonoBehaviour
                 Debug.LogWarning("Unimplemented Personality.");
                 break;
         }
+
+        Initialize();
     }
 
     // Update is called once per frame
@@ -206,7 +227,7 @@ public class AIController : MonoBehaviour
             case AIState.Flee:
                 Flee();
                 //Check for transitions
-                if (!SeesPlayer(data.sightDistance))
+                if (!SeesPlayer(data.sightDistance) && Vector3.Distance(tf.position, target.position) > safeDistance)
                 {
                     ChangeState(AIState.Patrol);
                 }
@@ -218,7 +239,7 @@ public class AIController : MonoBehaviour
     {
         //Do the patrol behaviors
         //Could be set to the waypoint system
-        if (motor.RotateTowards(waypoints[currentWaypoint].position, data.rotateSpeed))
+        if (motor.RotateTowards(waypoints[currentWaypoint].position, data.rotateSpeed, false))
         {
             //Do nothing
         }
@@ -253,7 +274,7 @@ public class AIController : MonoBehaviour
             Vector3 fleePosition = vectorAwayFromTarget + tf.position;
 
             //Rotate and move away from target
-            motor.RotateTowards(fleePosition, data.rotateSpeed);
+            motor.RotateTowards(fleePosition, data.rotateSpeed, false);
             motor.Move(data.moveSpeed);
         }
     }
@@ -266,9 +287,9 @@ public class AIController : MonoBehaviour
     private void Attack()
     {
         Debug.Log("Attacking");
+        motor.RotateTowards(target.position, data.rotateSpeed, false);
         if (Time.time >= nextEventTime)
         {
-            motor.RotateTowards(target.position, data.rotateSpeed);
             Shoot();
             nextEventTime = Time.time + timerDelay;
         }
@@ -286,16 +307,8 @@ public class AIController : MonoBehaviour
 
     private void Flee()
     {
-        Vector3 vectorToTarget = target.position - tf.position;
-        Vector3 vectorAwayFromTarget = -vectorToTarget;
-
-        //Set vector equal to 1 unit so that its magnitude is not equal to vectorToTarget
-        vectorAwayFromTarget.Normalize();
-
-        Vector3 fleePosition = vectorAwayFromTarget + tf.position;
-
         //Rotate and move away from target
-        motor.RotateTowards(fleePosition, data.rotateSpeed);
+        motor.RotateTowards(target.position, data.rotateSpeed, true);
         motor.Move(data.moveSpeed);
     }
 
@@ -310,7 +323,7 @@ public class AIController : MonoBehaviour
             //Raycast forward
             RaycastHit hit;
 
-            if (Physics.Raycast(tf.position, tf.forward, out hit, sight, ~layerMask))
+            if (Physics.Raycast(tf.position, vectorToTarget, out hit, sight, ~layerMask))
             {
                 if (hit.collider.CompareTag("Player"))
                 {
@@ -331,11 +344,13 @@ public class AIController : MonoBehaviour
         newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
     }
 
-    //Will destroy itself and other object on collision
-    void OnCollisionEnter(Collision otherObject)
+    //Will destroy itself and the player on collision
+    void OnTriggerEnter(Collider otherObject)
     {
-        if (gameObject.tag == "Player")
+        Debug.Log(otherObject);
+        if (otherObject.gameObject.GetComponent<InputManager>())
         {
+            Debug.Log("Destroy Player.");
             Destroy(otherObject.gameObject);
             Destroy(this.gameObject);
         }        
