@@ -35,6 +35,14 @@ public class InputManager : MonoBehaviour
         HandleInput();
     }
 
+    public void MovePlayer(Vector3 newPostion)
+    {
+        //gameObject.transform.position = new Vector3 (newPostion.x, newPostion.y, newPostion.z);
+        motor.characterController.enabled = false;
+        motor.characterController.transform.position = newPostion;
+        motor.characterController.enabled = true;
+    }
+
     void HandleInput()
     {
         switch (input)

@@ -6,11 +6,11 @@ public class PlayerSpawnPoint : MonoBehaviour
 {
     void Start()
     {
-        GameManager.Instance.playerSpawnPoints.Add(this.gameObject.GetComponent<PlayerSpawnPoint>());
+        //GameManager.Instance.playerSpawnPoints.Add(this.gameObject.GetComponent<PlayerSpawnPoint>());
     }
 
     void OnDestroy()
     {
-        GameManager.Instance.playerSpawnPoints.Remove(this.gameObject.GetComponent<PlayerSpawnPoint>());
+        //GameManager.Instance.playerSpawnPoints.Remove(this.gameObject.GetComponent<PlayerSpawnPoint>());
     }
 }

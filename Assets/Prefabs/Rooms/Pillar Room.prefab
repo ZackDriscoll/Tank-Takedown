@@ -533,7 +533,7 @@ MonoBehaviour:
   - {fileID: 8756696432293511470}
   enemySpawnPoint: {fileID: 8411715818551908142}
   enemy: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
-  ac: {fileID: 0}
+  playerSpawnPoint: {fileID: 1786606144786733586}
 --- !u!1 &4926376393778235283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,7 +1457,7 @@ PrefabInstance:
     - target: {fileID: 7701845498691816808, guid: 5a435997b63db674b9592668ff6906b4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7701845498691816808, guid: 5a435997b63db674b9592668ff6906b4,
         type: 3}
@@ -1757,7 +1757,7 @@ PrefabInstance:
     - target: {fileID: 1132039283114451662, guid: 626a402bd47be5d47969ee44cbb48b35,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1132039283114451662, guid: 626a402bd47be5d47969ee44cbb48b35,
         type: 3}

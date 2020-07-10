@@ -14,6 +14,8 @@ public class Room : MonoBehaviour
 	public Transform enemySpawnPoint;
 	public GameObject enemy;
 
+	public Transform playerSpawnPoint;
+
 	private AIController ac;
 
 	public void Initialize()
@@ -24,6 +26,14 @@ public class Room : MonoBehaviour
 
 		int randomNumber = Random.Range(0, (int)AIController.AIPersonality.Coward);
 		ac.currentPersonality = (AIController.AIPersonality)randomNumber;
+	}
+
+	void Update()
+	{
+		if (enemy == null)
+		{
+			GameManager.Instance.SpawnEnemies(this);
+		}
 	}
 
 }

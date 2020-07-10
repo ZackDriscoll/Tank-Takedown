@@ -7,7 +7,7 @@ using UnityEngine;
 public class TankMotor : MonoBehaviour
 {
     //Need a reference to the character controller and transform components
-    private CharacterController characterController;
+    public CharacterController characterController;
     private Transform tf;
     public TankData data;
 

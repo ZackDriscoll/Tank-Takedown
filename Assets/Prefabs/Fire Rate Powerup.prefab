@@ -107,9 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerup:
     speedModifier: 0
-    healthModifier: 20
+    healthModifier: 0
     maxHealthModifier: 0
-    fireRateModifier: 0
+    fireRateModifier: 1
     duration: 0
     isPermanent: 1
   FeedbackAudioClip: {fileID: 0}

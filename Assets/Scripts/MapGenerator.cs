@@ -43,6 +43,7 @@ public class MapGenerator : MonoBehaviour
         //Start with an empty grid
         grid = new Room[columns, rows];
 
+        Debug.Log("Columns: " + columns + "Rows: " + rows);
         //For each grid row
         for (int currentRow = 0; currentRow < rows; currentRow++)
         {
@@ -68,6 +69,8 @@ public class MapGenerator : MonoBehaviour
 
                 grid[currentColumn, currentRow] = tempRoom;
 
+                GameManager.Instance.rooms.Add(tempRoom);
+
                 GameManager.Instance.SpawnEnemies(tempRoom);
             }
         }
@@ -75,40 +78,28 @@ public class MapGenerator : MonoBehaviour
 
     private void DeactivateDoors(int currentRow, int currentColumn, Room tempRoom)
     {
-        if (rows == 1)
+        if (currentColumn < columns - 1)
         {
-            //Do nothing
-        }
-        else if (currentRow == 0)
-        {
-            tempRoom.doorNorth.SetActive(false);
-        }
-        else if (currentRow == rows - 1)
-        {
-            tempRoom.doorSouth.SetActive(false);
-        }
-        else
-        {
-            tempRoom.doorNorth.SetActive(false);
-            tempRoom.doorSouth.SetActive(false);
+            //open east door
+            tempRoom.doorEast.SetActive(false);
         }
 
-        if (columns == 1)
+        if (currentColumn > 0)
         {
-            //Do nothing
-        }
-        else if (currentColumn == 0)
-        {
+            //open west door
             tempRoom.doorWest.SetActive(false);
         }
-        else if (currentColumn == columns - 1)
+
+        if (currentRow < columns - 1)
         {
-            tempRoom.doorEast.SetActive(false);
+            //open north door
+            tempRoom.doorNorth.SetActive(false);
         }
-        else
+
+        if (currentRow > 0)
         {
-            tempRoom.doorWest.SetActive(false);
-            tempRoom.doorEast.SetActive(false);
+            //open south door
+            tempRoom.doorSouth.SetActive(false);
         }
     }
 

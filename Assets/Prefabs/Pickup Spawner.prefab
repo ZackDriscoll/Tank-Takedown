@@ -48,4 +48,5 @@ MonoBehaviour:
   pickupPrefabs:
   - {fileID: 6497750528650908017, guid: 4f72871826dc39e479ca56cf10234f4e, type: 3}
   - {fileID: 8139509081701239571, guid: 57ed331a57ec0ec4a8d8ef1c919e9d75, type: 3}
+  - {fileID: 6923777546819389448, guid: 1785d4cad5daa104893acf3d1ea8b3be, type: 3}
   spawnDelay: 15

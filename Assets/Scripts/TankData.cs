@@ -36,7 +36,14 @@ public class TankData : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            if (gameObject.GetComponent<InputManager>())
+            {
+                GameManager.Instance.Respawn();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

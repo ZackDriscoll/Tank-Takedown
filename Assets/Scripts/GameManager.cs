@@ -7,8 +7,11 @@ public class GameManager : Singleton<GameManager>
     public GameObject playerPrefab;
     public GameObject player;
 
+    public GameObject cameraPrefab;
+
     public GameObject enemyPrefab;
     public GameObject enemy;
+    public List<GameObject> enemies;
 
     public int demoNumber = 13;
     public List<PlayerSpawnPoint> playerSpawnPoints;
@@ -22,16 +25,32 @@ public class GameManager : Singleton<GameManager>
 
     public void SpawnPlayer()
     {
-        int playerNumber = Random.Range(0, playerSpawnPoints.Count);
+        Debug.Log("Spawning Player");
 
-        Instantiate(playerPrefab, playerSpawnPoints[playerNumber].transform.position, Quaternion.identity);
+        int playerNumber = Random.Range(0, rooms.Count);
+
+        Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+
+        Instantiate(cameraPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+
+        player = FindObjectOfType<InputManager>().gameObject;
+
+        Debug.Log("Initially spawned at: " + playerNumber);
     }
 
     public void Respawn()
     {
-        int playerNumber = Random.Range(0, playerSpawnPoints.Count);
+        Debug.Log("First: " + player.transform.position);
 
-        player.transform.position = playerSpawnPoints[playerNumber].transform.position;
+        int playerNumber = Random.Range(0, rooms.Count);
+
+        player.GetComponent<InputManager>().MovePlayer(rooms[playerNumber].playerSpawnPoint.position);
+
+        Debug.Log(rooms[playerNumber].playerSpawnPoint.position);
+
+        Debug.Log("Second: " + player.transform.position);
+
+        player.GetComponent<TankData>().currentHealth = player.GetComponent<TankData>().maxHealth;
     }
 
     public void SpawnEnemies(Room room)

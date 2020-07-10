@@ -81,6 +81,8 @@ public class AIController : MonoBehaviour
 
         nextEventTime = Time.time + timerDelay;
 
+        target = GameManager.Instance.player.transform;
+
         switch (currentPersonality)
         {
             case AIPersonality.Guard:
@@ -239,6 +241,7 @@ public class AIController : MonoBehaviour
     {
         //Do the patrol behaviors
         //Could be set to the waypoint system
+        Debug.Log(waypoints.Length);
         if (motor.RotateTowards(waypoints[currentWaypoint].position, data.rotateSpeed, false))
         {
             //Do nothing
@@ -351,7 +354,7 @@ public class AIController : MonoBehaviour
         if (otherObject.gameObject.GetComponent<InputManager>())
         {
             Debug.Log("Destroy Player.");
-            Destroy(otherObject.gameObject);
+            GameManager.Instance.Respawn();
             Destroy(this.gameObject);
         }        
     }
