@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de2e342c9fc1744cb12dada56dc8c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
   data: {fileID: 0}
 --- !u!114 &1487033120
 MonoBehaviour:
