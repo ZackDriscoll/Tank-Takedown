@@ -13,16 +13,7 @@ public class CameraController : MonoBehaviour
         transform.position += offset;
 
         /*cameras = GetComponents<Camera>();
-
-        if (cameras.Count == 1)
-        {
-            cameras[0].rect = new Rect(0, 0, 1, 1);
-        }
-        else
-        {
-            cameras[0].rect = new Rect(0, 0, 1, 0.5f);
-            cameras[0].rect = new Rect(0, 0.5f, 1, 0.5f);
-        }*/
+         GetCameraPositions();*/
     }
 
     // Update is called once per frame
@@ -31,5 +22,18 @@ public class CameraController : MonoBehaviour
         transform.position = GameManager.Instance.player.transform.position + offset;
 
         transform.LookAt(GameManager.Instance.player.transform.position);
+    }
+
+    private void GetCameraPositions()
+    {
+        /*if (cameras.Count == 1)
+        {
+            cameras[0].rect = new Rect(0, 0, 1, 1);
+        }
+        else
+        {
+            cameras[0].rect = new Rect(0, 0, 1, 0.5f);
+            cameras[0].rect = new Rect(0, 0.5f, 1, 0.5f);
+        }*/
     }
 }
