@@ -8,9 +8,12 @@ public class GameManager : Singleton<GameManager>
     //cannot change in code appart from initializing
     private const int HIGHSCORETABLESIZE = 3;
 
+    //Variable to deturmine the number of players
+    public int numPlayers;
+
     //GameObjects for the player
     public GameObject playerPrefab;
-    public GameObject player;
+    public GameObject[] players = new GameObject[2];
 
     //Camera prefab to attatch to player
     public GameObject cameraPrefab;
@@ -46,32 +49,44 @@ public class GameManager : Singleton<GameManager>
 
         Debug.Log("Spawning Player");
 
-        int playerNumber = Random.Range(0, rooms.Count);
+        int playerNumber = Random.Range(0, rooms.Count);        
 
-        Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+        if (numPlayers == 1)
+        {
+            players[0] = Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
 
-        Instantiate(cameraPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+            players[0].GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 1);
+        }
+        else
+        {
+            players[0] = Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
 
-        player = FindObjectOfType<InputManager>().gameObject;
+            players[0].GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 0.5f);
+
+            players[1] = Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+
+            players[1].GetComponentInChildren<Camera>().rect = new Rect(0, 0.5f, 1, 0.5f);
+        }
+        
 
         Debug.Log("Initially spawned at: " + playerNumber);
     }
 
-    public void Respawn()
+    public void Respawn(int playerToRespawn)
     {
         //Respawn the player at a random spawn point if they die
 
-        Debug.Log("First: " + player.transform.position);
+        Debug.Log("First: " + players[playerToRespawn].transform.position);
 
         int playerNumber = Random.Range(0, rooms.Count);
 
-        player.GetComponent<InputManager>().MovePlayer(rooms[playerNumber].playerSpawnPoint.position);
+        players[playerToRespawn].GetComponent<InputManager>().MovePlayer(rooms[playerNumber].playerSpawnPoint.position);
 
         Debug.Log(rooms[playerNumber].playerSpawnPoint.position);
 
-        Debug.Log("Second: " + player.transform.position);
+        Debug.Log("Second: " + players[playerToRespawn].transform.position);
 
-        player.GetComponent<TankData>().currentHealth = player.GetComponent<TankData>().maxHealth;
+        players[playerToRespawn].GetComponent<TankData>().currentHealth = players[playerToRespawn].GetComponent<TankData>().maxHealth;
     }
 
     public void SpawnEnemies(Room room)

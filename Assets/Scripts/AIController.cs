@@ -81,7 +81,7 @@ public class AIController : MonoBehaviour
 
         nextEventTime = Time.time + timerDelay;
 
-        target = GameManager.Instance.player.transform;
+        target = GameManager.Instance.players[].transform;
 
         switch (currentPersonality)
         {
