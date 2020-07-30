@@ -81,8 +81,6 @@ public class AIController : MonoBehaviour
 
         nextEventTime = Time.time + timerDelay;
 
-        target = GameManager.Instance.players[].transform;
-
         switch (currentPersonality)
         {
             case AIPersonality.Guard:
@@ -147,7 +145,7 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                if (SeesPlayer(data.sightDistance))
+                if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     Debug.Log("Player was seen and we're changing state.");
                     ChangeState(AIState.Attack);
@@ -157,7 +155,7 @@ public class AIController : MonoBehaviour
                 Debug.Log("Current State = Attack");
                 Attack();
                 //Check for transitions
-                if (!SeesPlayer(data.sightDistance))
+                if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     ChangeState(AIState.Patrol);
                 }
@@ -172,7 +170,7 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                if (SeesPlayer(data.sightDistance))
+                if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     ChangeState(AIState.Chase);
                 }
@@ -180,7 +178,7 @@ public class AIController : MonoBehaviour
             case AIState.Chase:
                 Chase();
                 //Check for transitions
-                if (!SeesPlayer(data.sightDistance))
+                if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     ChangeState(AIState.Patrol);
                 }
@@ -195,14 +193,14 @@ public class AIController : MonoBehaviour
             case AIState.Search:
                 Search();
                 //Check for transitions
-                if (SeesPlayer(data.SniperSightDistance))
+                if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     ChangeState(AIState.Attack);
                 }
                 break;
             case AIState.Attack:
                 Attack();
-                if (!SeesPlayer(data.SniperSightDistance))
+                if (!SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     ChangeState(AIState.Search);
                 }
@@ -217,7 +215,7 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                if (SeesPlayer(data.sightDistance))
+                if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
                 {
                     //Should we flee?
                     if (CheckForFlee())
@@ -229,7 +227,8 @@ public class AIController : MonoBehaviour
             case AIState.Flee:
                 Flee();
                 //Check for transitions
-                if (!SeesPlayer(data.sightDistance) && Vector3.Distance(tf.position, target.position) > safeDistance)
+                if ((!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) && Vector3.Distance(tf.position, GameManager.Instance.playerOne.transform.position) > safeDistance) 
+                    || (!SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo) && Vector3.Distance(tf.position, GameManager.Instance.playerTwo.transform.position) > safeDistance))
                 {
                     ChangeState(AIState.Patrol);
                 }
@@ -266,19 +265,40 @@ public class AIController : MonoBehaviour
 
     private void Chase()
     {
-        if (SeesPlayer(data.sightDistance))
+        if (GameManager.Instance.playerOne != null)
         {
-            Vector3 vectorToTarget = target.position - tf.position;
-            Vector3 vectorAwayFromTarget = vectorToTarget;
+            if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne))
+            {
+                Vector3 vectorToTarget = target.position - tf.position;
+                Vector3 vectorAwayFromTarget = vectorToTarget;
 
-            //Set vector equal to 1 unit so that its magnitude is not equal to vectorToTarget
-            vectorAwayFromTarget.Normalize();
+                //Set vector equal to 1 unit so that its magnitude is not equal to vectorToTarget
+                vectorAwayFromTarget.Normalize();
 
-            Vector3 fleePosition = vectorAwayFromTarget + tf.position;
+                Vector3 fleePosition = vectorAwayFromTarget + tf.position;
 
-            //Rotate and move away from target
-            motor.RotateTowards(fleePosition, data.rotateSpeed, false);
-            motor.Move(data.moveSpeed);
+                //Rotate and move away from target
+                motor.RotateTowards(fleePosition, data.rotateSpeed, false);
+                motor.Move(data.moveSpeed);
+            } 
+        }
+
+        if (GameManager.Instance.playerTwo != null)
+        {
+            if (SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+            {
+                Vector3 vectorToTarget = target.position - tf.position;
+                Vector3 vectorAwayFromTarget = vectorToTarget;
+
+                //Set vector equal to 1 unit so that its magnitude is not equal to vectorToTarget
+                vectorAwayFromTarget.Normalize();
+
+                Vector3 fleePosition = vectorAwayFromTarget + tf.position;
+
+                //Rotate and move away from target
+                motor.RotateTowards(fleePosition, data.rotateSpeed, false);
+                motor.Move(data.moveSpeed);
+            }
         }
     }
 
@@ -300,9 +320,20 @@ public class AIController : MonoBehaviour
 
     private bool CheckForFlee()
     {
-        if (SeesPlayer(data.sightDistance))
+        if (GameManager.Instance.playerOne != null)
         {
-            return true;
+            if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne))
+            {
+                return true;
+            }             
+        }
+
+        if (GameManager.Instance.playerTwo != null)
+        {
+            if (SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+            {
+                return true;
+            }
         }
 
         return false;
@@ -315,9 +346,9 @@ public class AIController : MonoBehaviour
         motor.Move(data.moveSpeed);
     }
 
-    public bool SeesPlayer(float sight)
+    public bool SeesPlayer(float sight, GameObject player)
     {
-        Vector3 vectorToTarget = target.position - tf.position;
+        Vector3 vectorToTarget = player.transform.position - tf.position;        
 
         float angleToTarget = Vector3.Angle(vectorToTarget, tf.forward);
 
@@ -331,6 +362,7 @@ public class AIController : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     Debug.Log("Sees Player");
+                    target = hit.transform;
                     return true;
                 }
             }
@@ -354,7 +386,7 @@ public class AIController : MonoBehaviour
         if (otherObject.gameObject.GetComponent<InputManager>())
         {
             Debug.Log("Destroy Player.");
-            GameManager.Instance.Respawn();
+            GameManager.Instance.Respawn(this.gameObject);
             Destroy(this.gameObject);
         }        
     }

@@ -38,7 +38,7 @@ public class TankData : MonoBehaviour
         {
             if (gameObject.GetComponent<InputManager>())
             {
-                GameManager.Instance.Respawn();
+                GameManager.Instance.Respawn(this.gameObject);
             }
             else
             {

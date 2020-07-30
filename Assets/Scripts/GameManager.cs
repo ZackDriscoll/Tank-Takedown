@@ -11,9 +11,13 @@ public class GameManager : Singleton<GameManager>
     //Variable to deturmine the number of players
     public int numPlayers;
 
+    //True = two players, False = one player
+    public bool twoPlayerGame;
+
     //GameObjects for the player
     public GameObject playerPrefab;
-    public GameObject[] players = new GameObject[2];
+    public GameObject playerOne;
+    public GameObject playerTwo;
 
     //Camera prefab to attatch to player
     public GameObject cameraPrefab;
@@ -49,44 +53,46 @@ public class GameManager : Singleton<GameManager>
 
         Debug.Log("Spawning Player");
 
-        int playerNumber = Random.Range(0, rooms.Count);        
+        int playerOneNumber = Random.Range(0, rooms.Count);
+        int playerTwoNumber = Random.Range(0, rooms.Count);
 
-        if (numPlayers == 1)
+        playerOne = Instantiate(playerPrefab, rooms[playerOneNumber].playerSpawnPoint.position, Quaternion.identity);
+        playerOne.GetComponent<InputManager>().input = InputManager.InputScheme.WASD;
+        GameObject playerOneCamera = Instantiate(cameraPrefab, playerOne.transform.position, playerOne.transform.rotation);
+        playerOneCamera.GetComponent<CameraController>().player = playerOne.transform;
+
+        if (twoPlayerGame == true)
         {
-            players[0] = Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+            playerOneCamera.GetComponent<Camera>().rect = new Rect(0, 0.5f, 1, 0.5f);
 
-            players[0].GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 1);
-        }
-        else
-        {
-            players[0] = Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+            playerTwo = Instantiate(playerPrefab, rooms[playerTwoNumber].playerSpawnPoint.position, Quaternion.identity);
+            playerTwo.GetComponent<InputManager>().input = InputManager.InputScheme.arrowKeys;
 
-            players[0].GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 0.5f);
+            GameObject playerTwoCamera = Instantiate(cameraPrefab, playerTwo.transform.position, playerTwo.transform.rotation);
+            playerTwoCamera.GetComponent<CameraController>().player = playerTwo.transform;
 
-            players[1] = Instantiate(playerPrefab, rooms[playerNumber].playerSpawnPoint.position, Quaternion.identity);
+            playerTwoCamera.GetComponent<Camera>().rect = new Rect(0, 0, 1, 0.5f);
+        }  
 
-            players[1].GetComponentInChildren<Camera>().rect = new Rect(0, 0.5f, 1, 0.5f);
-        }
-        
-
-        Debug.Log("Initially spawned at: " + playerNumber);
+        Debug.Log("Initially spawned at: " + playerOneNumber);
+        Debug.Log("Initially spawned at: " + playerTwoNumber);
     }
 
-    public void Respawn(int playerToRespawn)
+    public void Respawn(GameObject player)
     {
         //Respawn the player at a random spawn point if they die
 
-        Debug.Log("First: " + players[playerToRespawn].transform.position);
+        Debug.Log("First: " + player.transform.position);
 
         int playerNumber = Random.Range(0, rooms.Count);
 
-        players[playerToRespawn].GetComponent<InputManager>().MovePlayer(rooms[playerNumber].playerSpawnPoint.position);
+        player.GetComponent<InputManager>().MovePlayer(rooms[playerNumber].playerSpawnPoint.position);
 
         Debug.Log(rooms[playerNumber].playerSpawnPoint.position);
 
-        Debug.Log("Second: " + players[playerToRespawn].transform.position);
+        Debug.Log("Second: " + player.transform.position);
 
-        players[playerToRespawn].GetComponent<TankData>().currentHealth = players[playerToRespawn].GetComponent<TankData>().maxHealth;
+        player.GetComponent<TankData>().currentHealth = player.GetComponent<TankData>().maxHealth;
     }
 
     public void SpawnEnemies(Room room)

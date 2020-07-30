@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
     private float lastEventTime;
 
     public enum InputScheme { WASD, arrowKeys };
-    public InputScheme input = InputScheme.WASD;
+    public InputScheme input;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +62,15 @@ public class InputManager : MonoBehaviour
                     motor.Move(0);
                 }
 
+                if (Input.GetKeyDown(KeyCode.Keypad0))
+                {
+                    if (Time.time >= lastEventTime + timerDelay)
+                    {
+                        Shoot();
+                        lastEventTime = Time.time;
+                    }
+                }
+
                 //Handle Rotation
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
@@ -88,6 +97,15 @@ public class InputManager : MonoBehaviour
                     motor.Move(0);
                 }
 
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (Time.time >= lastEventTime + timerDelay)
+                    {
+                        Shoot();
+                        lastEventTime = Time.time;
+                    }
+                }
+
                 //Handle Rotation
                 if (Input.GetKey(KeyCode.A))
                 {
@@ -107,14 +125,7 @@ public class InputManager : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (Time.time >= lastEventTime + timerDelay)
-            {
-                Shoot();
-                lastEventTime = Time.time;
-            }
-        }
+        
     }
 
     void Shoot()
