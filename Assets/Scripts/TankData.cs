@@ -9,9 +9,13 @@ public class TankData : MonoBehaviour
     public float reverseSpeed = 2.50f;
     public float rotateSpeed = 90.0f;
 
+    //Allow the playing of audio sources
+    public AudioSource audioSource;
+
     //Tank Health System
     public float maxHealth = 30.0f;
     public float currentHealth;
+    public int lives = 3;
 
     public float bulletDamage = 10.0f;
     public float fireRate;
@@ -36,9 +40,17 @@ public class TankData : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            if (gameObject.GetComponent<InputManager>())
+            /*audioSource.clip = AudioClips.audioClips.tankDeath;
+            audioSource.Play();*/
+
+            lives--;
+
+            if (lives > 0)
             {
-                GameManager.Instance.Respawn(this.gameObject);
+                if (gameObject.GetComponent<InputManager>())
+                {
+                    GameManager.Instance.Respawn(this.gameObject);
+                }
             }
             else
             {

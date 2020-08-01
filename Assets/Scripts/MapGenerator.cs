@@ -21,7 +21,7 @@ public class MapGenerator : MonoBehaviour
         MapOfTheDay
     }
 
-    public MapType mapType = MapType.Random;
+    public MapType mapType;
 
     public int DateToInt(DateTime dateToUse)
     {
@@ -103,30 +103,21 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartGame();
-    }
-
     public void StartGame()
     {
-        switch (mapType)
-        {
-            case MapType.MapOfTheDay:
-                mapSeed = DateToInt(DateTime.Now.Date);
-                break;
-            case MapType.Random:
-                mapSeed = DateToInt(DateTime.Now);
-                break;
-            case MapType.Seeded:
-                break;
-            default:
-                Debug.LogWarning("[MapGenerator] Map type not implemented.");
-                break;
-        }
-
         GenerateGrid();
         GameManager.Instance.SpawnPlayer();
+    }
+
+    public void SetSeed(int newSeed)
+    {
+        //Setting the new seed through options
+        mapSeed = newSeed;
+    }
+
+    public void SetMapType(MapType newMapType)
+    {
+        //Setting the map type through options
+        mapType = newMapType;
     }
 }

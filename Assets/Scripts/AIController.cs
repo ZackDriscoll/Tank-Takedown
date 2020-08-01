@@ -145,19 +145,42 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    Debug.Log("Player was seen and we're changing state.");
-                    ChangeState(AIState.Attack);
+                    if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne))
+                    {
+                        Debug.Log("Player was seen and we're changing state.");
+                        ChangeState(AIState.Attack);
+                    } 
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                    {
+                        Debug.Log("Player was seen and we're changing state.");
+                        ChangeState(AIState.Attack);
+                    } 
                 }
                 break;
             case AIState.Attack:
                 Debug.Log("Current State = Attack");
                 Attack();
                 //Check for transitions
-                if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    ChangeState(AIState.Patrol);
+                    if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne))
+                    {
+                        ChangeState(AIState.Patrol);
+                    } 
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                    {
+                        ChangeState(AIState.Patrol);
+                    }
                 }
                 break;
         }
@@ -170,17 +193,39 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    ChangeState(AIState.Chase);
+                    if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne))
+                    {
+                        ChangeState(AIState.Chase);
+                    } 
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                    {
+                        ChangeState(AIState.Chase);
+                    }
                 }
                 break;
             case AIState.Chase:
                 Chase();
                 //Check for transitions
-                if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    ChangeState(AIState.Patrol);
+                    if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne))
+                    {
+                        ChangeState(AIState.Patrol);
+                    } 
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (!SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                    {
+                        ChangeState(AIState.Patrol);
+                    }
                 }
                 break;
         }
@@ -193,16 +238,38 @@ public class AIController : MonoBehaviour
             case AIState.Search:
                 Search();
                 //Check for transitions
-                if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    ChangeState(AIState.Attack);
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne))
+                    {
+                        ChangeState(AIState.Attack);
+                    } 
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerTwo))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
                 }
                 break;
             case AIState.Attack:
                 Attack();
-                if (!SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    ChangeState(AIState.Search);
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne))
+                    {
+                        ChangeState(AIState.Search);
+                    }
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerTwo))
+                    {
+                        ChangeState(AIState.Search);
+                    }
                 }
                 break;
         }
@@ -215,22 +282,45 @@ public class AIController : MonoBehaviour
             case AIState.Patrol:
                 Patrol();
                 //Check for transitions
-                if (SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) || SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    //Should we flee?
-                    if (CheckForFlee())
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne))
                     {
-                        ChangeState(AIState.Flee);
+                        if (CheckForFlee())
+                        {
+                            ChangeState(AIState.Flee); 
+                        }
                     }
-                }                
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerTwo))
+                    {
+                        if (CheckForFlee())
+                        {
+                            ChangeState(AIState.Flee);
+                        }
+                    }
+                }
                 break;
             case AIState.Flee:
                 Flee();
                 //Check for transitions
-                if ((!SeesPlayer(data.sightDistance, GameManager.Instance.playerOne) && Vector3.Distance(tf.position, GameManager.Instance.playerOne.transform.position) > safeDistance) 
-                    || (!SeesPlayer(data.sightDistance, GameManager.Instance.playerTwo) && Vector3.Distance(tf.position, GameManager.Instance.playerTwo.transform.position) > safeDistance))
+                if (GameManager.Instance.playerOne != null)
                 {
-                    ChangeState(AIState.Patrol);
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerOne) && Vector3.Distance(tf.position, GameManager.Instance.playerOne.transform.position) > safeDistance)
+                    {
+                        ChangeState(AIState.Patrol);
+                    }
+                }
+
+                if (GameManager.Instance.playerTwo != null)
+                {
+                    if (SeesPlayer(data.SniperSightDistance, GameManager.Instance.playerTwo) && Vector3.Distance(tf.position, GameManager.Instance.playerTwo.transform.position) > safeDistance)
+                    {
+                        ChangeState(AIState.Patrol);
+                    }
                 }
                 break;
         }
@@ -313,7 +403,7 @@ public class AIController : MonoBehaviour
         motor.RotateTowards(target.position, data.rotateSpeed, false);
         if (Time.time >= nextEventTime)
         {
-            Shoot();
+            motor.Shoot(bulletPrefab, firePoint);
             nextEventTime = Time.time + timerDelay;
         }
     }
@@ -369,14 +459,6 @@ public class AIController : MonoBehaviour
         }        
 
         return false;
-    }
-
-    //Instatiates a bullet prefab from the firePoint and deals damage to target
-    void Shoot()
-    {
-        GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-
-        newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
     }
 
     //Will destroy itself and the player on collision

@@ -11,6 +11,9 @@ public class TankMotor : MonoBehaviour
     private Transform tf;
     public TankData data;
 
+    //Allow the playing of audio sources
+    public AudioSource audioSource;
+
     void Start()
     {
         characterController = gameObject.GetComponent<CharacterController>();
@@ -71,5 +74,15 @@ public class TankMotor : MonoBehaviour
         tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, speed * Time.deltaTime);
 
         return true;
+    }
+
+    public void Shoot(GameObject bulletPrefab, Transform firePoint)
+    {
+        /*audioSource.clip = AudioClips.audioClips.bulletHit;
+        audioSource.Play();*/
+
+        GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+        newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
     }
 }

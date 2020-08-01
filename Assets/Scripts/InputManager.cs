@@ -13,6 +13,9 @@ public class InputManager : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
 
+    //Allows playing of audio sources
+    public AudioSource audioSource;
+
     //Variables to control timer for shooting
     public float timerDelay = 1.50f;
     private float lastEventTime;
@@ -66,7 +69,10 @@ public class InputManager : MonoBehaviour
                 {
                     if (Time.time >= lastEventTime + timerDelay)
                     {
-                        Shoot();
+                        /*audioSource.clip = AudioClips.audioClips.tankFire;
+                        audioSource.Play();*/
+
+                        motor.Shoot(bulletPrefab, firePoint);
                         lastEventTime = Time.time;
                     }
                 }
@@ -74,11 +80,11 @@ public class InputManager : MonoBehaviour
                 //Handle Rotation
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    motor.Rotate(-data.rotateSpeed);
+                    motor.Rotate(data.rotateSpeed);
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    motor.Rotate(data.rotateSpeed);
+                    motor.Rotate(-data.rotateSpeed);
                 }
                 break;
 
@@ -101,7 +107,10 @@ public class InputManager : MonoBehaviour
                 {
                     if (Time.time >= lastEventTime + timerDelay)
                     {
-                        Shoot();
+                        /*audioSource.clip = AudioClips.audioClips.tankFire;
+                        audioSource.Play();*/
+
+                        motor.Shoot(bulletPrefab, firePoint);
                         lastEventTime = Time.time;
                     }
                 }
@@ -126,12 +135,5 @@ public class InputManager : MonoBehaviour
         }
 
         
-    }
-
-    void Shoot()
-    {
-        GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-
-        newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
     }
 }

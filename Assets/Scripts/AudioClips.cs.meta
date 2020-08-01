@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0264f401bf7875a4eb0a16202902d544
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gameMusic: {fileID: 8300000, guid: afb4dcc93d5a76644a991a74a4a2ec81, type: 3}
+  - menuMusic: {fileID: 8300000, guid: 10b803280e520dc4685b79f838299cd1, type: 3}
+  - bulletHit: {fileID: 8300000, guid: e35af63fde9dddd408ff693225f4f34c, type: 3}
+  - buttonClick: {fileID: 8300000, guid: fde615d234c4177489243b11e2a5e692, type: 3}
+  - powerup: {fileID: 8300000, guid: 7e3024428b5465c44afcf90289376cc7, type: 3}
+  - tankDeath: {fileID: 8300000, guid: 7bb4970b632ffa3429f82d9ca1d5fddf, type: 3}
+  - tankFire: {fileID: 8300000, guid: 5ddcee15cd63b1544bb7edb7c99a8d58, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

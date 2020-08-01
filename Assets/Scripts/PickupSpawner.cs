@@ -11,6 +11,8 @@ public class PickupSpawner : MonoBehaviour
     private Transform tf;
     private GameObject currentPickup;
 
+    public AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,9 @@ public class PickupSpawner : MonoBehaviour
             //Once the timer has run down, spawn in a new pickup
             if (Time.time > nextSpawnTime)
             {
+                /*audioSource.clip = AudioClips.audioClips.powerup;
+                audioSource.Play();*/
+
                 //Select a random prefab from the list
                 pickupPrefab = pickupPrefabs[Random.Range(0, pickupPrefabs.Count)];
                 //Spawn it

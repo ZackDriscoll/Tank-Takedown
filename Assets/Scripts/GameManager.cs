@@ -8,6 +8,9 @@ public class GameManager : Singleton<GameManager>
     //cannot change in code appart from initializing
     private const int HIGHSCORETABLESIZE = 3;
 
+    //Access to the map generator
+    public MapGenerator mapGenerator;
+
     //Variable to deturmine the number of players
     public int numPlayers;
 
@@ -18,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject playerPrefab;
     public GameObject playerOne;
     public GameObject playerTwo;
+    public GameObject playerOneCamera;
 
     //Camera prefab to attatch to player
     public GameObject cameraPrefab;
@@ -34,6 +38,9 @@ public class GameManager : Singleton<GameManager>
     public List<Room> rooms;
     public List<ScoreData> scores = new List<ScoreData>();
 
+    //Allows the use of audio sources
+    public AudioSource audioSource;
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,22 +51,31 @@ public class GameManager : Singleton<GameManager>
         scores.Reverse();
 
         //Limit the size of the high score list
-        scores = scores.GetRange(index: 0, count: HIGHSCORETABLESIZE);
+        //scores = scores.GetRange(index: 0, count: HIGHSCORETABLESIZE);
+    }
+
+    public void Start()
+    {
+        //Initialize the player at 0, 0.1f, 0 in order to have access to the camera before the game officially starts
+        playerOne = Instantiate(playerPrefab, new Vector3 (0, 0.1f, 0), Quaternion.identity);
+        playerOne.GetComponent<InputManager>().input = InputManager.InputScheme.WASD;
+        playerOneCamera = Instantiate(cameraPrefab, playerOne.transform.position, playerOne.transform.rotation);
+        playerOneCamera.GetComponent<CameraController>().player = playerOne.transform;
+
+        /*audioSource.clip = AudioClips.audioClips.menuMusic;
+        audioSource.Play();*/
     }
 
     public void SpawnPlayer()
     {
-        //Spawn the player at a random spawn point within the generated map
+        //Spawn the player(s) at a random spawn point within the generated map
 
         Debug.Log("Spawning Player");
 
         int playerOneNumber = Random.Range(0, rooms.Count);
         int playerTwoNumber = Random.Range(0, rooms.Count);
 
-        playerOne = Instantiate(playerPrefab, rooms[playerOneNumber].playerSpawnPoint.position, Quaternion.identity);
-        playerOne.GetComponent<InputManager>().input = InputManager.InputScheme.WASD;
-        GameObject playerOneCamera = Instantiate(cameraPrefab, playerOne.transform.position, playerOne.transform.rotation);
-        playerOneCamera.GetComponent<CameraController>().player = playerOne.transform;
+        playerOne.transform.position = rooms[playerOneNumber].transform.position;
 
         if (twoPlayerGame == true)
         {

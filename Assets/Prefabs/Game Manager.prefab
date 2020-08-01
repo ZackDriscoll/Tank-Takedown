@@ -43,12 +43,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b0a6264ade5c3419f85bcd0214257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapGenerator: {fileID: 0}
+  numPlayers: 0
+  twoPlayerGame: 0
   playerPrefab: {fileID: 100012, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
-  player: {fileID: 0}
+  playerOne: {fileID: 0}
+  playerTwo: {fileID: 0}
+  playerOneCamera: {fileID: 0}
   cameraPrefab: {fileID: 1398986228333235908, guid: 092322b8246a04647866c2e48f2cfd8d,
     type: 3}
   enemyPrefab: {fileID: 100012, guid: e523c3404cb58f54aa6f65a3fdc2e15a, type: 3}
   enemy: {fileID: 0}
+  enemies: []
   demoNumber: 13
   playerSpawnPoints: []
   rooms: []
+  scores: []
+  audioSource: {fileID: 0}
