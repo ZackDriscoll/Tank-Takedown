@@ -40,8 +40,8 @@ public class TankData : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            /*audioSource.clip = AudioClips.audioClips.tankDeath;
-            audioSource.Play();*/
+            audioSource.clip = AudioClips.Instance.tankDeath;
+            AudioSource.PlayClipAtPoint(AudioClips.Instance.tankDeath, this.gameObject.transform.position);
 
             lives--;
 

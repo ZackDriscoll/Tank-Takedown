@@ -402,6 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 0}
   data: {fileID: 0}
+  audioSource: {fileID: 4344038461040664764}
 --- !u!114 &1487033120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,8 +418,10 @@ MonoBehaviour:
   moveSpeed: 5
   reverseSpeed: 2.5
   rotateSpeed: 150
+  audioSource: {fileID: 4344038461040664764}
   maxHealth: 50
   currentHealth: 0
+  lives: 3
   bulletDamage: 10
   fireRate: 0
   sightDistance: 40
@@ -506,7 +509,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

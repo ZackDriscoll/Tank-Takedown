@@ -468,7 +468,7 @@ public class AIController : MonoBehaviour
         if (otherObject.gameObject.GetComponent<InputManager>())
         {
             Debug.Log("Destroy Player.");
-            GameManager.Instance.Respawn(this.gameObject);
+            GameManager.Instance.Respawn(otherObject.gameObject);
             Destroy(this.gameObject);
         }        
     }

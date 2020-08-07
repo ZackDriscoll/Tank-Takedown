@@ -40,7 +40,6 @@ public class InputManager : MonoBehaviour
 
     public void MovePlayer(Vector3 newPostion)
     {
-        //gameObject.transform.position = new Vector3 (newPostion.x, newPostion.y, newPostion.z);
         motor.characterController.enabled = false;
         motor.characterController.transform.position = newPostion;
         motor.characterController.enabled = true;
@@ -69,8 +68,8 @@ public class InputManager : MonoBehaviour
                 {
                     if (Time.time >= lastEventTime + timerDelay)
                     {
-                        /*audioSource.clip = AudioClips.audioClips.tankFire;
-                        audioSource.Play();*/
+                        audioSource.clip = AudioClips.Instance.tankFire;
+                        audioSource.Play();
 
                         motor.Shoot(bulletPrefab, firePoint);
                         lastEventTime = Time.time;
@@ -107,8 +106,9 @@ public class InputManager : MonoBehaviour
                 {
                     if (Time.time >= lastEventTime + timerDelay)
                     {
-                        /*audioSource.clip = AudioClips.audioClips.tankFire;
-                        audioSource.Play();*/
+                        audioSource.clip = AudioClips.Instance.tankFire;
+                        audioSource.Play();
+                        Debug.Log("Playing " + audioSource.clip + " audio clip.");
 
                         motor.Shoot(bulletPrefab, firePoint);
                         lastEventTime = Time.time;

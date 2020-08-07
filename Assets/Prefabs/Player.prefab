@@ -348,7 +348,6 @@ GameObject:
   - component: {fileID: 5056789430749029825}
   - component: {fileID: 4864745114761978193}
   - component: {fileID: 7396557054656685923}
-  - component: {fileID: 1637676553525765029}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -404,6 +403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 0}
   data: {fileID: 0}
+  audioSource: {fileID: 7396557054656685923}
 --- !u!114 &1487033120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,8 +419,10 @@ MonoBehaviour:
   moveSpeed: 5
   reverseSpeed: 2.5
   rotateSpeed: 90
+  audioSource: {fileID: 7396557054656685923}
   maxHealth: 50
   currentHealth: 0
+  lives: 3
   bulletDamage: 10
   fireRate: 0
   sightDistance: 20
@@ -441,6 +443,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5578080078209122171, guid: 89a2b798997bb4647a3744c16c12b348,
     type: 3}
   firePoint: {fileID: 5033647128797040737}
+  audioSource: {fileID: 7396557054656685923}
   timerDelay: 1.5
   input: 0
 --- !u!54 &1786758247025547755
@@ -596,19 +599,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1637676553525765029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0264f401bf7875a4eb0a16202902d544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClips: []
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

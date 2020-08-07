@@ -62,8 +62,8 @@ public class GameManager : Singleton<GameManager>
         playerOneCamera = Instantiate(cameraPrefab, playerOne.transform.position, playerOne.transform.rotation);
         playerOneCamera.GetComponent<CameraController>().player = playerOne.transform;
 
-        /*audioSource.clip = AudioClips.audioClips.menuMusic;
-        audioSource.Play();*/
+        audioSource.clip = AudioClips.Instance.menuMusic;
+        audioSource.Play();
     }
 
     public void SpawnPlayer()
@@ -101,6 +101,8 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("First: " + player.transform.position);
 
         int playerNumber = Random.Range(0, rooms.Count);
+
+        Debug.Log("playerNumber: " + rooms[playerNumber].playerSpawnPoint.position);
 
         player.GetComponent<InputManager>().MovePlayer(rooms[playerNumber].playerSpawnPoint.position);
 

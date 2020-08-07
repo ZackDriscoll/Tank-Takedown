@@ -19,7 +19,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         if (IsInitialized)
         {
-            Debug.LogError("Attempting to instantiate a second instance of a Game Manager.");
+            Debug.LogError("Attempting to instantiate a second instance of " + this.gameObject.name);
             Destroy(this.gameObject);
         }
         else

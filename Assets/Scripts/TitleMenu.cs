@@ -27,8 +27,8 @@ public class TitleMenu : MonoBehaviour
     //Start the game
     public void StartGame()
     {
-        /*audioSource.clip = AudioClips.audioClips.buttonClick;
-        audioSource.Play();*/
+        audioSource.clip = AudioClips.Instance.buttonClick;
+        audioSource.Play();
 
         //What happens when the player presses the Start Game Button
         Debug.Log("[TitleMenu] Start Game");
@@ -45,15 +45,15 @@ public class TitleMenu : MonoBehaviour
         GameManager.Instance.mapGenerator.StartGame();
 
         //Set music to the game background music
-        /*GameManager.Instance.audioSource.clip = AudioClips.audioClips.gameMusic;
-        GameManager.Instance.audioSource.Play();*/
+        GameManager.Instance.audioSource.clip = AudioClips.Instance.gameMusic;
+        GameManager.Instance.audioSource.Play();
     }
 
     //Go to the Options Menu
     public void OnClickOptions()
     {
-        /*audioSource.clip = AudioClips.audioClips.buttonClick;
-        audioSource.Play();*/
+        audioSource.clip = AudioClips.Instance.buttonClick;
+        audioSource.Play();
 
         //What happens when the player presses the Options Button
         Debug.Log("[TitleMenu] Options");
@@ -67,8 +67,8 @@ public class TitleMenu : MonoBehaviour
     //Quit the game from the Title Screen/Game Over Screen
     public void OnClickQuit()
     {
-        /*audioSource.clip = AudioClips.audioClips.buttonClick;
-        audioSource.Play();*/
+        audioSource.clip = AudioClips.Instance.buttonClick;
+        audioSource.Play();
 
         //What happens when the player presses the Quit Button
         Debug.Log("[TitleMenu] Quit Game");
@@ -78,8 +78,8 @@ public class TitleMenu : MonoBehaviour
     //Go back to the Title Screen when you click "Return"
     public void OnClickReturn()
     {
-        /*audioSource.clip = AudioClips.audioClips.buttonClick;
-        audioSource.Play();*/
+        audioSource.clip = AudioClips.Instance.buttonClick;
+        audioSource.Play();
 
         titleScreen.SetActive(true);
         optionsMenu.SetActive(false);

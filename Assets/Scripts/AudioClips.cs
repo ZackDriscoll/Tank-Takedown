@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AudioClips : MonoBehaviour
+public class AudioClips : Singleton<AudioClips>
 {
-    public static AudioClips audioClips;
     public AudioClip gameMusic;
     public AudioClip menuMusic;
     public AudioClip bulletHit;
