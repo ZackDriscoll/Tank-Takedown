@@ -13,9 +13,14 @@ public class Bullet : MonoBehaviour
     public float bulletDuration = 3.0f;
     public float damage;
 
+    public string shooterName;
+
+    public AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         tf = gameObject.GetComponent<Transform>();
         data = gameObject.GetComponent<TankData>();
         motor = gameObject.GetComponent<TankMotor>();
@@ -42,13 +47,25 @@ public class Bullet : MonoBehaviour
         //Destroy an enemy or player if they're hit by the bullet
         if (otherObject.gameObject.tag == "Enemy" || otherObject.gameObject.tag == "Player")
         {
-            otherObject.gameObject.GetComponent<TankData>().DealDamage(damage);
-            Destroy(this.gameObject);
+            if (shooterName == "Player One")
+            {
+                otherObject.gameObject.GetComponent<TankData>().DealDamage(GameManager.Instance.playerOne.GetComponent<TankData>().bulletDamage); 
+            }
+            else if (shooterName == "Player Two")
+            {
+                otherObject.gameObject.GetComponent<TankData>().DealDamage(GameManager.Instance.playerTwo.GetComponent<TankData>().bulletDamage);
+            }
+            else
+            {
+                otherObject.gameObject.GetComponent<TankData>().DealDamage(otherObject.gameObject.GetComponent<TankData>().bulletDamage);
+            }
         }
-        else
-        {
-            //Destroys itself on contact with any other object
-            Destroy(this.gameObject);
-        }
+
+        audioSource.clip = AudioClips.Instance.bulletHit;
+        audioSource.Play();
+
+        GetComponent<Renderer>().enabled = false;
+
+        Destroy(this.gameObject, 0.5f);
     }
 }

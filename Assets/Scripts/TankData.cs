@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TankData : MonoBehaviour
@@ -34,14 +35,22 @@ public class TankData : MonoBehaviour
 
     public void DealDamage(float damage)
     {
-        damage = bulletDamage;
-
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
             audioSource.clip = AudioClips.Instance.tankDeath;
-            AudioSource.PlayClipAtPoint(AudioClips.Instance.tankDeath, this.gameObject.transform.position);
+            audioSource.Play();
+
+            if (tag == "Enemy")
+            {
+                GameManager.Instance.scores.Last<ScoreData>().score += 10;
+
+                if (SaveManager.Instance.score > SaveManager.Instance.score)
+                {
+                    GameManager.Instance.scores.Last<ScoreData>().SaveScore(); 
+                }
+            }
 
             lives--;
 
@@ -54,6 +63,7 @@ public class TankData : MonoBehaviour
             }
             else
             {
+                GameManager.Instance.titleMenu.GameOver();
                 Destroy(gameObject);
             }
         }

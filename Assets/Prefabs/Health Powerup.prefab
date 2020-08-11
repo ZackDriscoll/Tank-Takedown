@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4739125176390575512}
   m_Layer: 0
   m_Name: Health Powerup
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
     fireRateModifier: 0
     duration: 0
     isPermanent: 1
-  FeedbackAudioClip: {fileID: 0}
+  audioSource: {fileID: 4739125176390575512}
 --- !u!82 &4739125176390575512
 AudioSource:
   m_ObjectHideFlags: 0
@@ -123,9 +123,10 @@ AudioSource:
   m_GameObject: {fileID: 6497750528650908017}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  OutputAudioMixerGroup: {fileID: -6222828918741292024, guid: 08cccad9f2b3ca54abbc10ae96849178,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 7e3024428b5465c44afcf90289376cc7, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -9,6 +9,8 @@ public class TitleMenu : MonoBehaviour
     public GameObject optionsMenu;
     public GameObject gameOver;
     public GameObject HUD;
+    public GameObject playerScoreText;
+    public GameObject highScoreText;
 
     //Allows the use of audio in the game
     public AudioSource audioSource;
@@ -38,6 +40,10 @@ public class TitleMenu : MonoBehaviour
         gameOver.SetActive(false);
         HUD.SetActive(true);
 
+        ScoreData newScoreData = new ScoreData();
+        newScoreData.Load(newScoreData);
+        GameManager.Instance.scores.Add(newScoreData);
+
         //When the Start Button is pressed, play the game
         Time.timeScale = 1;
 
@@ -47,6 +53,46 @@ public class TitleMenu : MonoBehaviour
         //Set music to the game background music
         GameManager.Instance.audioSource.clip = AudioClips.Instance.gameMusic;
         GameManager.Instance.audioSource.Play();
+    }
+
+    public void ResetGame()
+    {
+        foreach (GameObject objectsToDestroy in GameObject.FindGameObjectsWithTag("Room"))
+        {
+            if (objectsToDestroy.name == "Room")
+            {
+                Destroy(objectsToDestroy);
+            }
+        }
+
+        foreach (GameObject objectsToDestroy in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (objectsToDestroy.name == "Player")
+            {
+                Destroy(objectsToDestroy);
+            }
+        }
+
+        foreach (GameObject objectsToDestroy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (objectsToDestroy.name == "Enemy")
+            {
+                Destroy(objectsToDestroy);
+            }
+        }
+
+        foreach (GameObject objectsToDestroy in GameObject.FindGameObjectsWithTag("Powerup"))
+        {
+            Destroy(objectsToDestroy);
+        }
+
+        foreach (GameObject objectsToDestroy in GameObject.FindGameObjectsWithTag("MainCamera"))
+        {
+            Destroy(objectsToDestroy);
+        }
+
+        GameManager.Instance.StartGame();
+        StartGame();
     }
 
     //Go to the Options Menu
@@ -90,12 +136,13 @@ public class TitleMenu : MonoBehaviour
     //Activate the Game Over Screen when the player(s) run out of lives
     public void GameOver()
     {
-        if (data.lives <= 0)
-        {
-            titleScreen.SetActive(false);
-            optionsMenu.SetActive(false);
-            gameOver.SetActive(true);
-            HUD.SetActive(false);
-        }
+        titleScreen.SetActive(false);
+        optionsMenu.SetActive(false);
+        gameOver.SetActive(true);
+        HUD.SetActive(false);
+
+        Time.timeScale = 0;
+
+
     }
 }

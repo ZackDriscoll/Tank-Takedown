@@ -468,8 +468,23 @@ public class AIController : MonoBehaviour
         if (otherObject.gameObject.GetComponent<InputManager>())
         {
             Debug.Log("Destroy Player.");
-            GameManager.Instance.Respawn(otherObject.gameObject);
-            Destroy(this.gameObject);
+            data.audioSource.clip = AudioClips.Instance.tankDeath;
+            data.audioSource.Play();
+
+            otherObject.gameObject.GetComponent<TankData>().DealDamage(50);
+            data.DealDamage(50);
+            
+            StartCoroutine(WaitToRespawn());
+
+            IEnumerator WaitToRespawn()
+            {
+                yield return new WaitForSeconds(1f);
+
+                //respawn player here
+                GameManager.Instance.Respawn(otherObject.gameObject);
+            }
+
+            Destroy(this.gameObject, 1.1f);
         }        
     }
 }

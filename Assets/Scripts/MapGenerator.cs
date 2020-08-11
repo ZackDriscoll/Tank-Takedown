@@ -61,7 +61,7 @@ public class MapGenerator : MonoBehaviour
                 tempRoomObj.transform.parent = this.transform;
 
                 //Give the room a meaningful name
-                tempRoomObj.name = "Room_" + currentColumn + "," + currentRow;
+                tempRoomObj.name = "Room";
 
                 Room tempRoom = tempRoomObj.GetComponent<Room>();
 
@@ -105,6 +105,7 @@ public class MapGenerator : MonoBehaviour
 
     public void StartGame()
     {
+        GameManager.Instance.rooms.Clear();
         GenerateGrid();
         GameManager.Instance.SpawnPlayer();
     }

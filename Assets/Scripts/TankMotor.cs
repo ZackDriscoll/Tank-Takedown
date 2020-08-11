@@ -78,11 +78,10 @@ public class TankMotor : MonoBehaviour
 
     public void Shoot(GameObject bulletPrefab, Transform firePoint)
     {
-        audioSource.clip = AudioClips.Instance.bulletHit;
-        audioSource.Play();
-
         GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
         newBullet.GetComponent<Bullet>().damage = data.bulletDamage;
+
+        newBullet.GetComponent<Bullet>().shooterName = this.gameObject.name;
     }
 }

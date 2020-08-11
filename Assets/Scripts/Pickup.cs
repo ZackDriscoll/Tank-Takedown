@@ -5,19 +5,8 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     public Powerup powerup;
-    public AudioClip FeedbackAudioClip;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public AudioSource audioSource;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -27,13 +16,13 @@ public class Pickup : MonoBehaviour
         if (powerupController != null)
         {
             powerupController.AddPowerup(powerup);
+            
+            audioSource.Play();
 
-            if (FeedbackAudioClip != null)
-            {
-                AudioSource.PlayClipAtPoint(FeedbackAudioClip, transform.position, 1.0f);
-            }
+            GetComponent<Renderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
 
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.5f);
         }
     }
 }

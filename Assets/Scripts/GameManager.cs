@@ -31,6 +31,8 @@ public class GameManager : Singleton<GameManager>
     public GameObject enemy;
     public List<GameObject> enemies;
 
+    public TitleMenu titleMenu;
+
     public int demoNumber = 13;
 
     //Lists to control the number of player spawn points, rooms, and scores
@@ -56,8 +58,13 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
+        StartGame();
+    }
+
+    public void StartGame()
+    {
         //Initialize the player at 0, 0.1f, 0 in order to have access to the camera before the game officially starts
-        playerOne = Instantiate(playerPrefab, new Vector3 (0, 0.1f, 0), Quaternion.identity);
+        playerOne = Instantiate(playerPrefab, new Vector3(0, 0.1f, 0), Quaternion.identity);
         playerOne.GetComponent<InputManager>().input = InputManager.InputScheme.WASD;
         playerOneCamera = Instantiate(cameraPrefab, playerOne.transform.position, playerOne.transform.rotation);
         playerOneCamera.GetComponent<CameraController>().player = playerOne.transform;
@@ -76,6 +83,7 @@ public class GameManager : Singleton<GameManager>
         int playerTwoNumber = Random.Range(0, rooms.Count);
 
         playerOne.transform.position = rooms[playerOneNumber].transform.position;
+        playerOne.name = "Player One";
 
         if (twoPlayerGame == true)
         {
@@ -83,6 +91,8 @@ public class GameManager : Singleton<GameManager>
 
             playerTwo = Instantiate(playerPrefab, rooms[playerTwoNumber].playerSpawnPoint.position, Quaternion.identity);
             playerTwo.GetComponent<InputManager>().input = InputManager.InputScheme.arrowKeys;
+
+            playerTwo.name = "Player Two";
 
             GameObject playerTwoCamera = Instantiate(cameraPrefab, playerTwo.transform.position, playerTwo.transform.rotation);
             playerTwoCamera.GetComponent<CameraController>().player = playerTwo.transform;
@@ -118,6 +128,8 @@ public class GameManager : Singleton<GameManager>
         //Spawn one enemy in each room and respawn them so there is always an enemy in each room
 
         enemy = Instantiate(enemyPrefab, room.enemySpawnPoint.position, Quaternion.identity);
+
+        enemy.name = "Enemy";
 
         room.enemy = enemy;
 
