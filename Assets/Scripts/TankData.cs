@@ -45,26 +45,24 @@ public class TankData : MonoBehaviour
             if (tag == "Enemy")
             {
                 GameManager.Instance.scores.Last<ScoreData>().score += 10;
-
-                if (SaveManager.Instance.score > SaveManager.Instance.score)
-                {
-                    GameManager.Instance.scores.Last<ScoreData>().SaveScore(); 
-                }
             }
 
-            lives--;
+            if (gameObject.GetComponent<InputManager>())
+            {
+                lives--;
 
-            if (lives > 0)
-            {
-                if (gameObject.GetComponent<InputManager>())
+                if (lives > 0)
                 {
-                    GameManager.Instance.Respawn(this.gameObject);
+                    if (gameObject.GetComponent<InputManager>())
+                    {
+                        GameManager.Instance.Respawn(this.gameObject);
+                    }
                 }
-            }
-            else
-            {
-                GameManager.Instance.titleMenu.GameOver();
-                Destroy(gameObject);
+                else
+                {
+                    GameManager.Instance.titleMenu.GameOver();
+                    Destroy(gameObject);
+                } 
             }
         }
     }

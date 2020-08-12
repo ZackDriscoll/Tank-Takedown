@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleMenu : MonoBehaviour
 {
@@ -8,9 +9,10 @@ public class TitleMenu : MonoBehaviour
     public GameObject titleScreen;
     public GameObject optionsMenu;
     public GameObject gameOver;
-    public GameObject HUD;
-    public GameObject playerScoreText;
-    public GameObject highScoreText;
+
+    public Text highScoreText;
+    public Text playerOneScoreText;
+    public Text playerTwoScoreText;
 
     //Allows the use of audio in the game
     public AudioSource audioSource;
@@ -38,7 +40,6 @@ public class TitleMenu : MonoBehaviour
         titleScreen.SetActive(false);
         optionsMenu.SetActive(false);
         gameOver.SetActive(false);
-        HUD.SetActive(true);
 
         ScoreData newScoreData = new ScoreData();
         newScoreData.Load(newScoreData);
@@ -107,7 +108,6 @@ public class TitleMenu : MonoBehaviour
         titleScreen.SetActive(false);
         optionsMenu.SetActive(true);
         gameOver.SetActive(false);
-        HUD.SetActive(false);
     }
 
     //Quit the game from the Title Screen/Game Over Screen
@@ -130,7 +130,6 @@ public class TitleMenu : MonoBehaviour
         titleScreen.SetActive(true);
         optionsMenu.SetActive(false);
         gameOver.SetActive(false);
-        HUD.SetActive(false);
     }
 
     //Activate the Game Over Screen when the player(s) run out of lives
@@ -139,10 +138,26 @@ public class TitleMenu : MonoBehaviour
         titleScreen.SetActive(false);
         optionsMenu.SetActive(false);
         gameOver.SetActive(true);
-        HUD.SetActive(false);
+        playerTwoScoreText.enabled = false;
 
         Time.timeScale = 0;
 
+        highScoreText.text = SaveManager.Instance.score.ToString();
+
+        if (GameManager.Instance.scores.Count != 0)
+        {
+            playerOneScoreText.text = "Player One: " + GameManager.Instance.scores[0].score.ToString();
+        }
+
+        if (GameManager.Instance.twoPlayerGame)
+        {
+            playerTwoScoreText.enabled = true;
+
+            if (GameManager.Instance.scores.Count != 0)
+            {
+                playerTwoScoreText.text = "Player Two: " + GameManager.Instance.scores[1].score.ToString();
+            }
+        }
 
     }
 }

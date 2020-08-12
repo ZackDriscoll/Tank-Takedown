@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : Singleton<GameManager>
 {
     //Set variable for the high score list display size, 
     //cannot change in code appart from initializing
-    private const int HIGHSCORETABLESIZE = 3;
+    private const int HIGHSCORETABLESIZE = 1;
 
     //Access to the map generator
     public MapGenerator mapGenerator;
@@ -19,9 +20,11 @@ public class GameManager : Singleton<GameManager>
 
     //GameObjects for the player
     public GameObject playerPrefab;
-    public GameObject playerOne;
+    public GameObject playerOne;    
     public GameObject playerTwo;
     public GameObject playerOneCamera;
+    public Canvas playerOneHUD;
+    public Canvas playerTwoHUD;
 
     //Camera prefab to attatch to player
     public GameObject cameraPrefab;
@@ -53,7 +56,28 @@ public class GameManager : Singleton<GameManager>
         scores.Reverse();
 
         //Limit the size of the high score list
-        //scores = scores.GetRange(index: 0, count: HIGHSCORETABLESIZE);
+        /*scores = scores.GetRange(index: 0, count: HIGHSCORETABLESIZE);*/
+    }
+
+    public void Update()
+    {
+        if (scores.Count != 0)
+        {
+            if (SaveManager.Instance.score < scores[0].score)
+            {
+                SaveManager.Instance.Save(scores[0]);
+            }
+        }
+
+        if (scores.Count != 0)
+        {
+            if (SaveManager.Instance.score < scores[1].score)
+            {
+                SaveManager.Instance.Save(scores[1]);
+            }
+        }
+
+            
     }
 
     public void Start()
@@ -68,6 +92,13 @@ public class GameManager : Singleton<GameManager>
         playerOne.GetComponent<InputManager>().input = InputManager.InputScheme.WASD;
         playerOneCamera = Instantiate(cameraPrefab, playerOne.transform.position, playerOne.transform.rotation);
         playerOneCamera.GetComponent<CameraController>().player = playerOne.transform;
+
+        if (!twoPlayerGame)
+        {
+            playerOneHUD.worldCamera = playerOneCamera.GetComponent<Camera>();
+            playerOneHUD.planeDistance = 5;
+            playerTwoHUD.enabled = false;
+        }
 
         audioSource.clip = AudioClips.Instance.menuMusic;
         audioSource.Play();
@@ -87,7 +118,10 @@ public class GameManager : Singleton<GameManager>
 
         if (twoPlayerGame == true)
         {
+            playerTwoHUD.enabled = true;
+
             playerOneCamera.GetComponent<Camera>().rect = new Rect(0, 0.5f, 1, 0.5f);
+            playerOneHUD.worldCamera = playerOneCamera.GetComponent<Camera>();
 
             playerTwo = Instantiate(playerPrefab, rooms[playerTwoNumber].playerSpawnPoint.position, Quaternion.identity);
             playerTwo.GetComponent<InputManager>().input = InputManager.InputScheme.arrowKeys;
@@ -98,6 +132,12 @@ public class GameManager : Singleton<GameManager>
             playerTwoCamera.GetComponent<CameraController>().player = playerTwo.transform;
 
             playerTwoCamera.GetComponent<Camera>().rect = new Rect(0, 0, 1, 0.5f);
+
+            playerTwoHUD.worldCamera = playerTwoCamera.GetComponent<Camera>();
+            playerTwoHUD.planeDistance = 5;
+
+            ScoreData playerTwoScoreData = new ScoreData();
+            scores.Add(playerTwoScoreData);
         }  
 
         Debug.Log("Initially spawned at: " + playerOneNumber);
