@@ -5,10 +5,6 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : Singleton<GameManager>
 {
-    //Set variable for the high score list display size, 
-    //cannot change in code appart from initializing
-    private const int HIGHSCORETABLESIZE = 1;
-
     //Access to the map generator
     public MapGenerator mapGenerator;
 
@@ -50,13 +46,6 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         playerSpawnPoints = new List<PlayerSpawnPoint>();
-
-        //Sort the high score list from highest to lowest
-        scores.Sort();
-        scores.Reverse();
-
-        //Limit the size of the high score list
-        /*scores = scores.GetRange(index: 0, count: HIGHSCORETABLESIZE);*/
     }
 
     public void Update()

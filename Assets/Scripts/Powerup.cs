@@ -3,7 +3,6 @@ public class Powerup
 {
     public float speedModifier;
     public float healthModifier;
-    public float maxHealthModifier;
     public float fireRateModifier;
 
     public float duration; //In seconds
@@ -13,7 +12,6 @@ public class Powerup
     {
         target.moveSpeed += speedModifier;
         target.currentHealth += healthModifier;
-        target.maxHealth += maxHealthModifier;
         target.fireRate += fireRateModifier;
     }
 
@@ -21,7 +19,6 @@ public class Powerup
     {
         target.moveSpeed -= speedModifier;
         target.currentHealth -= healthModifier;
-        target.maxHealth -= maxHealthModifier;
         target.fireRate -= fireRateModifier;
     }
 }

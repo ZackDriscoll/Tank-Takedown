@@ -142,7 +142,7 @@ public class TitleMenu : MonoBehaviour
 
         Time.timeScale = 0;
 
-        highScoreText.text = SaveManager.Instance.score.ToString();
+        highScoreText.text = "High Score: " + SaveManager.Instance.score.ToString();
 
         if (GameManager.Instance.scores.Count != 0)
         {
