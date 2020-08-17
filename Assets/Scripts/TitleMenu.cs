@@ -42,7 +42,6 @@ public class TitleMenu : MonoBehaviour
         gameOver.SetActive(false);
 
         ScoreData newScoreData = new ScoreData();
-        newScoreData.Load(newScoreData);
         GameManager.Instance.scores.Add(newScoreData);
 
         //When the Start Button is pressed, play the game
